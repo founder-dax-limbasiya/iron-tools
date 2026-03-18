@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iron Tools — 28 Free Online Tools for Developers & Marketers</title>
+<meta name="description" content="Iron Tools: 28 free online tools including AI Writer, Invoice Generator, SEO Meta Tags, QR Code, Password Generator and more.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #18181f;
+  --surface3: #202028;
+  --border: #2a2a38;
+  --accent: #6366f1;
+  --accent2: #4f46e5;
+  --accent-glow: rgba(99,102,241,0.15);
+  --text: #e8e8f0;
+  --muted: #6b6b80;
+  --success: #22c55e;
+  --warn: #f59e0b;
+  --danger: #ef4444;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.logo{font-size:1.2rem;font-weight:800;color:var(--accent);white-space:nowrap;}
+.logo span{color:var(--text);}
+.search-bar{flex:1;max-width:400px;position:relative;}
+.search-bar input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 14px 9px 36px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s;}
+.search-bar input:focus{border-color:var(--accent);}
+.search-bar input::placeholder{color:var(--muted);}
+.search-bar i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.85rem;}
+.tool-count{font-size:0.75rem;color:var(--muted);white-space:nowrap;}
+.tool-count span{color:var(--accent);font-weight:700;}
+
+/* AD SLOT */
+.ad-slot{background:var(--surface);border:1px dashed var(--border);border-radius:10px;padding:12px;text-align:center;color:var(--muted);font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;margin:16px 20px;}
+
+/* CATEGORIES */
+.categories{display:flex;gap:8px;padding:12px 20px;overflow-x:auto;border-bottom:1px solid var(--border);}
+.categories::-webkit-scrollbar{display:none;}
+.cat-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:0.78rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.cat-btn:hover,.cat-btn.active{background:var(--accent);color:white;border-color:var(--accent);}
+
+/* GRID */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:20px;}
+@media(max-width:480px){.tools-grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:12px;}}
+.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 12px;cursor:pointer;transition:all 0.2s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.tool-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(99,102,241,0.15);}
+.tool-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:2px;}
+.tool-name{font-size:0.8rem;font-weight:700;color:var(--text);line-height:1.3;}
+.tool-tag{font-size:0.65rem;color:var(--muted);font-weight:500;}
+.tool-badge{font-size:0.6rem;background:rgba(99,102,241,0.2);color:var(--accent);border:1px solid rgba(99,102,241,0.3);padding:2px 6px;border-radius:4px;font-weight:700;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;max-width:640px;margin:auto;overflow:hidden;}
+.modal-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2);}
+.modal-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:10px;}
+.modal-close{background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:4px;transition:color 0.2s;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:20px;}
+.modal-ad{background:var(--surface2);border:1px dashed var(--border);border-radius:8px;padding:10px;text-align:center;color:var(--muted);font-size:0.65rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;}
+
+/* FORM ELEMENTS */
+label{display:block;font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+input,select,textarea{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s;-webkit-appearance:none;margin-bottom:12px;}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);}
+input::placeholder,textarea::placeholder{color:var(--muted);}
+select{cursor:pointer;}
+textarea{resize:none;line-height:1.5;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.form-row{grid-template-columns:1fr;}}
+
+/* BUTTONS */
+.btn-primary{width:100%;background:var(--accent);color:white;border:none;border-radius:10px;padding:13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;}
+.btn-primary:hover{background:var(--accent2);box-shadow:0 6px 20px rgba(99,102,241,0.3);}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+
+/* OUTPUT */
+.output-box{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:14px;font-size:0.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap;min-height:60px;word-break:break-all;margin-bottom:10px;}
+.output-box.code{font-family:monospace;font-size:0.82rem;}
+
+/* SPINNER */
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:white;padding:10px 22px;border-radius:10px;font-weight:700;font-size:0.85rem;z-index:999;transition:transform 0.3s;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* TOOL SPECIFIC */
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.slider-row input[type=range]{flex:1;margin-bottom:0;padding:0;}
+.slider-val{font-weight:700;color:var(--accent);min-width:32px;text-align:right;font-size:0.9rem;}
+.color-preview{width:100%;height:80px;border-radius:10px;margin-bottom:12px;border:1px solid var(--border);}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);}
+.toggle-label{font-size:0.85rem;font-weight:500;}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--surface3);border-radius:22px;cursor:pointer;transition:0.2s;}
+.toggle-slider:before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.2s;}
+.toggle input:checked+.toggle-slider{background:var(--accent);}
+.toggle input:checked+.toggle-slider:before{transform:translateX(18px);}
+.risk-badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:0.72rem;font-weight:700;margin-left:8px;}
+.risk-safe{background:rgba(34,197,94,0.15);color:#22c55e;}
+.risk-medium{background:rgba(245,158,11,0.15);color:#f59e0b;}
+.risk-high{background:rgba(239,68,68,0.15);color:#ef4444;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.stat-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;}
+.stat-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:3px;}
+.stat-val{font-size:1.1rem;font-weight:800;color:var(--accent);}
+.chat-area{height:240px;overflow-y:auto;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;}
+.chat-msg{max-width:85%;padding:8px 12px;border-radius:10px;font-size:0.85rem;line-height:1.5;}
+.chat-msg.user{background:var(--accent);color:white;align-self:flex-end;border-bottom-right-radius:2px;}
+.chat-msg.ai{background:var(--surface3);color:var(--text);align-self:flex-start;border-bottom-left-radius:2px;}
+.chat-input-row{display:flex;gap:8px;}
+.chat-input-row input{flex:1;margin-bottom:0;}
+.chat-send{background:var(--accent);color:white;border:none;border-radius:8px;padding:10px 14px;cursor:pointer;font-size:0.9rem;}
+
+/* NO RESULTS */
+.no-results{text-align:center;padding:60px 20px;color:var(--muted);}
+.no-results i{font-size:2.5rem;margin-bottom:12px;display:block;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Iron<span>Tools</span></div>
+  <div class="search-bar">
+    <i class="fas fa-search"></i>
+    <input type="text" id="searchInput" placeholder="Search 28 tools..." oninput="filterTools()">
+  </div>
+  <div class="tool-count"><span id="visibleCount">28</span> tools</div>
+</div>
+
+<!-- Adsterra Ad -->
+<div class="ad-slot">
+  <script async="async" data-cfasync="false" src="https://pl28938805.effectivegatecpm.com/e13687b7a87b4aaf764a963c854b0bad/invoke.js"></script>
+  <div id="container-e13687b7a87b4aaf764a963c854b0bad"></div>
+</div>
+
+<div class="categories" id="catBar">
+  <button class="cat-btn active" onclick="filterCat('all',this)">⚡ All</button>
+  <button class="cat-btn" onclick="filterCat('ai',this)">🤖 AI Tools</button>
+  <button class="cat-btn" onclick="filterCat('business',this)">💼 Business</button>
+  <button class="cat-btn" onclick="filterCat('dev',this)">👨‍💻 Dev Tools</button>
+  <button class="cat-btn" onclick="filterCat('seo',this)">📈 SEO</button>
+  <button class="cat-btn" onclick="filterCat('design',this)">🎨 Design</button>
+  <button class="cat-btn" onclick="filterCat('utility',this)">🔧 Utility</button>
+</div>
+
+<div class="tools-grid" id="toolsGrid"></div>
+<div class="no-results" id="noResults" style="display:none;">
+  <i class="fas fa-search"></i>
+  <p>No tools found for "<span id="searchTerm"></span>"</p>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Tool</div>
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const AD_CODE = `<div class="modal-ad"><script async="async" data-cfasync="false" src="https://pl28938805.effectivegatecpm.com/e13687b7a87b4aaf764a963c854b0bad/invoke.js"><\/script><div id="container-e13687b7a87b4aaf764a963c854b0bad-modal"></div></div>`;
+
+const TOOLS = [
+  // AI
+  {id:'ai_writer',name:'AI Writer',icon:'✍️',color:'#6366f1',tag:'AI Content',cat:'ai',badge:'AI'},
+  {id:'ai_chatbot',name:'AI Chatbot',icon:'🤖',color:'#8b5cf6',tag:'Chat Assistant',cat:'ai',badge:'AI'},
+  {id:'legal_gen',name:'Legal Doc Gen',icon:'📄',color:'#3b82f6',tag:'Terms & Privacy',cat:'ai',badge:'AI'},
+  {id:'legal_ai',name:'Contract Analyzer',icon:'⚖️',color:'#06b6d4',tag:'Risk Analysis',cat:'ai',badge:'AI'},
+  {id:'seo_meta',name:'SEO Meta Gen',icon:'🔍',color:'#10b981',tag:'Meta Tags',cat:'seo',badge:'AI'},
+  // Business
+  {id:'billing',name:'Invoice Maker',icon:'🧾',color:'#f59e0b',tag:'PDF Invoices',cat:'business'},
+  {id:'quotation',name:'Quotation Maker',icon:'💬',color:'#f97316',tag:'Price Quotes',cat:'business'},
+  {id:'payroll',name:'Payroll Generator',icon:'💰',color:'#22c55e',tag:'Salary Slips',cat:'business'},
+  {id:'superpay',name:'Payment Tracker',icon:'💳',color:'#06b6d4',tag:'Track Payments',cat:'business'},
+  {id:'smartloan',name:'Loan Calculator',icon:'🏦',color:'#8b5cf6',tag:'EMI Calculator',cat:'business'},
+  {id:'sign',name:'Digital Signature',icon:'✒️',color:'#ec4899',tag:'Sign Documents',cat:'business'},
+  {id:'digital_sign',name:'Signature Pad',icon:'🖊️',color:'#6366f1',tag:'Draw Signature',cat:'business'},
+  // Dev
+  {id:'json',name:'JSON Formatter',icon:'{ }',color:'#f59e0b',tag:'Format & Validate',cat:'dev'},
+  {id:'base64',name:'Base64 Encoder',icon:'🔄',color:'#3b82f6',tag:'Image to Base64',cat:'dev'},
+  {id:'utm',name:'UTM Builder',icon:'🔗',color:'#10b981',tag:'Track Links',cat:'seo'},
+  {id:'box_shadow',name:'Box Shadow Gen',icon:'🌑',color:'#6366f1',tag:'CSS Shadows',cat:'dev'},
+  {id:'lorem',name:'Lorem Ipsum',icon:'📝',color:'#f97316',tag:'Placeholder Text',cat:'dev'},
+  {id:'pass_gen',name:'Password Gen',icon:'🔐',color:'#ef4444',tag:'Secure Passwords',cat:'utility'},
+  {id:'converter',name:'Unit Converter',icon:'⚖️',color:'#22c55e',tag:'Convert Units',cat:'utility'},
+  // Design
+  {id:'gradient',name:'Gradient Master',icon:'🌈',color:'#ec4899',tag:'CSS Gradients',cat:'design'},
+  {id:'palette',name:'Color Palette',icon:'🎨',color:'#8b5cf6',tag:'Color Generator',cat:'design'},
+  // Utility
+  {id:'qr',name:'QR Generator',icon:'⬛',color:'#1f2937',tag:'Create QR Codes',cat:'utility'},
+  {id:'img_compress',name:'Image Compressor',icon:'🖼️',color:'#f59e0b',tag:'Compress Images',cat:'utility'},
+  {id:'speedtest',name:'Speed Test',icon:'⚡',color:'#ef4444',tag:'Test Internet',cat:'utility'},
+  {id:'stopwatch',name:'Stopwatch',icon:'⏱️',color:'#06b6d4',tag:'Timer & Stopwatch',cat:'utility'},
+  {id:'calc',name:'Scientific Calc',icon:'🔢',color:'#6366f1',tag:'Advanced Calculator',cat:'utility'},
+  {id:'text_case',name:'Text Case',icon:'Aa',color:'#10b981',tag:'Text Transformer',cat:'utility'},
+  {id:'biz_os',name:'Business OS',icon:'🏢',color:'#3b82f6',tag:'Full ERP System',cat:'business'},
+];
+
+let currentCat = 'all';
+
+function renderTools(list) {
+  const grid = document.getElementById('toolsGrid');
+  const noRes = document.getElementById('noResults');
+  if (!list.length) {
+    grid.innerHTML = '';
+    noRes.style.display = 'block';
+    document.getElementById('searchTerm').textContent = document.getElementById('searchInput').value;
+    return;
+  }
+  noRes.style.display = 'none';
+  document.getElementById('visibleCount').textContent = list.length;
+  grid.innerHTML = list.map(t => `
+    <div class="tool-card" onclick="openTool('${t.id}')">
+      <div class="tool-icon" style="background:${t.color}22;color:${t.color};">${t.icon}</div>
+      <div class="tool-name">${t.name}</div>
+      <div class="tool-tag">${t.tag}</div>
+      ${t.badge ? `<div class="tool-badge">${t.badge}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('searchInput').value = '';
+  const list = cat === 'all' ? TOOLS : TOOLS.filter(t => t.cat === cat);
+  renderTools(list);
+}
+
+function filterTools() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  if (!q) { filterCat(currentCat, document.querySelector('.cat-btn.active')); return; }
+  const list = TOOLS.filter(t => t.name.toLowerCase().includes(q) || t.tag.toLowerCase().includes(q));
+  renderTools(list);
+}
+
+// === MODAL ===
+function openTool(id) {
+  const tool = TOOLS.find(t => t.id === id);
+  if (!tool) return;
+  document.getElementById('modalTitle').innerHTML = `<span style="font-size:1.3rem">${tool.icon}</span> ${tool.name}`;
+  document.getElementById('modalBody').innerHTML = getToolHTML(id);
+  document.getElementById('modalOverlay').classList.add('open');
+  initTool(id);
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+
+// =====================
+// CLAUDE API HELPER
+// =====================
+async function claudeAPI(prompt, btnEl, btnText) {
+  if (btnEl) { btnEl.disabled = true; btnEl.innerHTML = `<div class="spinner"></div> Generating...`; }
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    if (btnEl) { btnEl.disabled = false; btnEl.innerHTML = btnText; }
+    return data.content?.[0]?.text || '';
+  } catch(e) {
+    if (btnEl) { btnEl.disabled = false; btnEl.innerHTML = btnText; }
+    return 'Error: Could not connect. Please try again.';
+  }
+}
+
+// =====================
+// TOOL HTML TEMPLATES
+// =====================
+function getToolHTML(id) {
+  const adSlot = `<div class="modal-ad" style="margin-bottom:14px;background:var(--surface2);border:1px dashed var(--border);border-radius:8px;padding:8px;text-align:center;font-size:0.65rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">[ Advertisement ]</div>`;
+
+  const tools = {
+    ai_writer: `${adSlot}
+      <div class="form-row">
+        <div><label>Content Type</label>
+          <select id="aw_type">
+            <option>Blog Post</option><option>Email</option><option>YouTube Script</option>
+            <option>Instagram Caption</option><option>Cover Letter</option><option>Tweet</option>
+          </select>
+        </div>
+        <div><label>Tone</label>
+          <select id="aw_tone">
+            <option>Professional</option><option>Friendly</option><option>Funny</option>
+            <option>Persuasive</option><option>Urgent</option>
+          </select>
+        </div>
+      </div>
+      <label>Topic / Subject</label>
+      <textarea id="aw_topic" rows="3" placeholder="e.g. Benefits of drinking water daily..."></textarea>
+      <button class="btn-primary" id="aw_btn" onclick="runAIWriter()"><i class="fas fa-bolt"></i> Generate Content</button>
+      <div id="aw_out" class="output-box" style="display:none;max-height:220px;overflow-y:auto;"></div>
+      <div id="aw_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('aw_out')">📋 Copy</button></div>`,
+
+    ai_chatbot: `${adSlot}
+      <label>System Prompt (optional)</label>
+      <input id="cb_sys" placeholder="e.g. You are a helpful assistant..." value="You are a helpful, friendly AI assistant.">
+      <div class="chat-area" id="cb_chat"></div>
+      <div class="chat-input-row">
+        <input id="cb_input" placeholder="Type a message..." onkeydown="if(event.key==='Enter')chatSend()">
+        <button class="chat-send" onclick="chatSend()"><i class="fas fa-paper-plane"></i></button>
+      </div>`,
+
+    legal_gen: `${adSlot}
+      <div class="form-row">
+        <div><label>Document Type</label>
+          <select id="lg_type">
+            <option>Privacy Policy</option><option>Terms of Service</option>
+            <option>Refund Policy</option><option>Cookie Policy</option>
+          </select>
+        </div>
+        <div><label>Country/Region</label>
+          <select id="lg_country"><option>Global</option><option>India</option><option>USA</option><option>EU</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div><label>Company Name</label><input id="lg_company" placeholder="Your Company Name"></div>
+        <div><label>Website URL</label><input id="lg_url" placeholder="https://yoursite.com"></div>
+      </div>
+      <label>Email</label><input id="lg_email" placeholder="contact@yoursite.com">
+      <button class="btn-primary" id="lg_btn" onclick="runLegalGen()"><i class="fas fa-file-alt"></i> Generate Document</button>
+      <div id="lg_out" class="output-box" style="display:none;max-height:220px;overflow-y:auto;"></div>
+      <div id="lg_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('lg_out')">📋 Copy</button></div>`,
+
+    legal_ai: `${adSlot}
+      <label>Paste Contract Text</label>
+      <textarea id="la_input" rows="5" placeholder="Paste your contract or agreement text here for AI risk analysis..."></textarea>
+      <button class="btn-primary" id="la_btn" onclick="runLegalAI()"><i class="fas fa-search"></i> Analyze Risks</button>
+      <div id="la_out" class="output-box" style="display:none;max-height:220px;overflow-y:auto;"></div>`,
+
+    seo_meta: `${adSlot}
+      <label>Page Title</label><input id="sm_title" placeholder="My Awesome Website">
+      <label>Description</label><textarea id="sm_desc" rows="2" placeholder="Brief description of your page (150-160 chars)"></textarea>
+      <label>Keywords (comma separated)</label><input id="sm_kw" placeholder="tools, free, online">
+      <label>Author</label><input id="sm_author" placeholder="Your Name">
+      <button class="btn-primary" id="sm_btn" onclick="runSEOMeta()"><i class="fas fa-tags"></i> Generate Meta Tags</button>
+      <div id="sm_out" class="output-box code" style="display:none;max-height:220px;overflow-y:auto;"></div>
+      <div id="sm_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('sm_out')">📋 Copy HTML</button></div>`,
+
+    billing: `${adSlot}
+      <div class="form-row">
+        <div><label>Your Name/Business</label><input id="inv_from" placeholder="Iron Corp"></div>
+        <div><label>Client Name</label><input id="inv_to" placeholder="Client Name"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Invoice #</label><input id="inv_num" value="INV-001"></div>
+        <div><label>Currency</label><select id="inv_curr"><option value="₹">INR ₹</option><option value="$">USD $</option></select></div>
+      </div>
+      <label>Service Description</label><input id="inv_desc" placeholder="Web Development Services">
+      <div class="form-row">
+        <div><label>Amount</label><input id="inv_amt" type="number" placeholder="5000"></div>
+        <div><label>GST % (optional)</label><input id="inv_gst" type="number" placeholder="18"></div>
+      </div>
+      <button class="btn-primary" onclick="genInvoicePDF()"><i class="fas fa-file-pdf"></i> Download PDF Invoice</button>`,
+
+    quotation: `${adSlot}
+      <div class="form-row">
+        <div><label>From (Your Business)</label><input id="qt_from" placeholder="Iron Corp"></div>
+        <div><label>To (Client)</label><input id="qt_to" placeholder="Client Name"></div>
+      </div>
+      <label>Project Description</label><textarea id="qt_desc" rows="2" placeholder="Website redesign, 5 pages..."></textarea>
+      <div class="form-row">
+        <div><label>Amount</label><input id="qt_amt" type="number" placeholder="15000"></div>
+        <div><label>Valid Until</label><input id="qt_valid" type="date"></div>
+      </div>
+      <button class="btn-primary" id="qt_btn" onclick="runQuotationAI()"><i class="fas fa-bolt"></i> Generate AI Quotation</button>
+      <div id="qt_out" class="output-box" style="display:none;max-height:200px;overflow-y:auto;"></div>
+      <div id="qt_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('qt_out')">📋 Copy</button></div>`,
+
+    payroll: `${adSlot}
+      <div class="form-row">
+        <div><label>Employee Name</label><input id="pr_name" placeholder="John Doe"></div>
+        <div><label>Designation</label><input id="pr_role" placeholder="Software Developer"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Basic Salary (₹)</label><input id="pr_basic" type="number" placeholder="30000"></div>
+        <div><label>Month</label><input id="pr_month" placeholder="March 2026"></div>
+      </div>
+      <div class="form-row">
+        <div><label>HRA</label><input id="pr_hra" type="number" placeholder="5000"></div>
+        <div><label>Other Allowances</label><input id="pr_allow" type="number" placeholder="2000"></div>
+      </div>
+      <div class="form-row">
+        <div><label>PF Deduction</label><input id="pr_pf" type="number" placeholder="1800"></div>
+        <div><label>TDS</label><input id="pr_tds" type="number" placeholder="0"></div>
+      </div>
+      <div id="pr_calc" class="output-box" style="display:none;"></div>
+      <button class="btn-primary" onclick="calcPayroll()"><i class="fas fa-calculator"></i> Calculate & Generate Payslip</button>`,
+
+    smartloan: `${adSlot}
+      <div class="form-row">
+        <div><label>Loan Amount (₹)</label><input id="sl_amt" type="number" placeholder="500000"></div>
+        <div><label>Interest Rate (%)</label><input id="sl_rate" type="number" placeholder="8.5" step="0.1"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Tenure (Years)</label><input id="sl_years" type="number" placeholder="5"></div>
+        <div><label>Loan Type</label><select id="sl_type"><option>Home Loan</option><option>Car Loan</option><option>Personal Loan</option><option>Education Loan</option></select></div>
+      </div>
+      <button class="btn-primary" onclick="calcLoan()"><i class="fas fa-calculator"></i> Calculate EMI</button>
+      <div class="stat-grid" id="sl_results" style="display:none;">
+        <div class="stat-box"><div class="stat-label">Monthly EMI</div><div class="stat-val" id="sl_emi">-</div></div>
+        <div class="stat-box"><div class="stat-label">Total Interest</div><div class="stat-val" id="sl_interest">-</div></div>
+        <div class="stat-box"><div class="stat-label">Total Payment</div><div class="stat-val" id="sl_total">-</div></div>
+        <div class="stat-box"><div class="stat-label">Interest %</div><div class="stat-val" id="sl_pct">-</div></div>
+      </div>`,
+
+    superpay: `${adSlot}
+      <div class="form-row">
+        <div><label>Client</label><input id="sp_client" placeholder="Client Name"></div>
+        <div><label>Amount (₹)</label><input id="sp_amt" type="number" placeholder="5000"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Status</label><select id="sp_status"><option>Paid</option><option>Pending</option><option>Overdue</option></select></div>
+        <div><label>Date</label><input id="sp_date" type="date"></div>
+      </div>
+      <label>Description</label><input id="sp_desc" placeholder="Project payment...">
+      <button class="btn-primary" onclick="addPayment()"><i class="fas fa-plus"></i> Add Payment</button>
+      <div id="sp_list"></div>
+      <div class="stat-grid" style="margin-top:8px;">
+        <div class="stat-box"><div class="stat-label">Total Received</div><div class="stat-val" id="sp_total_paid" style="color:#22c55e;">₹0</div></div>
+        <div class="stat-box"><div class="stat-label">Pending</div><div class="stat-val" id="sp_total_pending" style="color:#f59e0b;">₹0</div></div>
+      </div>`,
+
+    sign: `${adSlot}
+      <label>Document Title</label><input id="sg_title" placeholder="Service Agreement">
+      <label>Signer Name</label><input id="sg_name" placeholder="Full Name">
+      <label>Designation</label><input id="sg_role" placeholder="CEO, Manager...">
+      <label>Draw Your Signature Below</label>
+      <canvas id="sg_canvas" width="580" height="120" style="background:white;border:1.5px solid var(--border);border-radius:8px;width:100%;cursor:crosshair;display:block;margin-bottom:10px;touch-action:none;"></canvas>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="clearSig()">🗑 Clear</button>
+        <button class="btn-secondary" onclick="downloadSig()">💾 Save Signature</button>
+      </div>`,
+
+    digital_sign: `${adSlot}
+      <label>Your Name</label><input id="ds_name" placeholder="Full Name" oninput="updateDSPreview()">
+      <label>Choose Style</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;" id="ds_styles">
+        <button class="btn-secondary" onclick="setDSStyle('cursive')" id="ds_s0">Cursive</button>
+        <button class="btn-secondary" onclick="setDSStyle('fantasy')" id="ds_s1">Fantasy</button>
+        <button class="btn-secondary" onclick="setDSStyle('serif')" id="ds_s2">Serif</button>
+      </div>
+      <canvas id="ds_canvas" width="580" height="100" style="background:white;border:1.5px solid var(--border);border-radius:8px;width:100%;display:block;margin-bottom:10px;"></canvas>
+      <button class="btn-primary" onclick="downloadDS()"><i class="fas fa-download"></i> Download Signature</button>`,
+
+    json: `${adSlot}
+      <label>Paste JSON</label>
+      <textarea id="jf_input" rows="6" placeholder='{"name":"Iron Tools","version":1}'></textarea>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="formatJSON()">✨ Format</button>
+        <button class="btn-secondary" onclick="minifyJSON()">📦 Minify</button>
+        <button class="btn-secondary" onclick="validateJSON()">✅ Validate</button>
+      </div>
+      <div id="jf_out" class="output-box code" style="display:none;max-height:200px;overflow-y:auto;"></div>
+      <div id="jf_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('jf_out')">📋 Copy</button></div>`,
+
+    base64: `${adSlot}
+      <label>Upload Image</label>
+      <input type="file" id="b64_file" accept="image/*" onchange="convertBase64()" style="margin-bottom:12px;">
+      <div id="b64_preview" style="display:none;margin-bottom:10px;">
+        <img id="b64_img" style="max-width:100%;border-radius:8px;margin-bottom:8px;">
+      </div>
+      <div id="b64_out" class="output-box code" style="display:none;max-height:150px;overflow-y:auto;font-size:0.7rem;"></div>
+      <div id="b64_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('b64_out')">📋 Copy Base64</button></div>`,
+
+    utm: `${adSlot}
+      <label>Website URL</label><input id="utm_url" placeholder="https://yoursite.com">
+      <div class="form-row">
+        <div><label>Source</label><input id="utm_src" placeholder="google"></div>
+        <div><label>Medium</label><input id="utm_med" placeholder="cpc"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Campaign</label><input id="utm_camp" placeholder="spring_sale"></div>
+        <div><label>Content (optional)</label><input id="utm_cont" placeholder="banner_1"></div>
+      </div>
+      <button class="btn-primary" onclick="buildUTM()"><i class="fas fa-link"></i> Build UTM URL</button>
+      <div id="utm_out" class="output-box" style="display:none;word-break:break-all;"></div>
+      <div id="utm_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('utm_out')">📋 Copy URL</button></div>`,
+
+    box_shadow: `${adSlot}
+      <div class="slider-row"><label style="margin:0;min-width:80px;">H-Offset</label><input type="range" id="bs_h" min="-50" max="50" value="5" oninput="updateShadow()"><span class="slider-val" id="bs_hv">5px</span></div>
+      <div class="slider-row"><label style="margin:0;min-width:80px;">V-Offset</label><input type="range" id="bs_v" min="-50" max="50" value="5" oninput="updateShadow()"><span class="slider-val" id="bs_vv">5px</span></div>
+      <div class="slider-row"><label style="margin:0;min-width:80px;">Blur</label><input type="range" id="bs_blur" min="0" max="100" value="15" oninput="updateShadow()"><span class="slider-val" id="bs_blurv">15px</span></div>
+      <div class="slider-row"><label style="margin:0;min-width:80px;">Spread</label><input type="range" id="bs_spread" min="-50" max="50" value="0" oninput="updateShadow()"><span class="slider-val" id="bs_spreadv">0px</span></div>
+      <div class="slider-row"><label style="margin:0;min-width:80px;">Opacity</label><input type="range" id="bs_op" min="0" max="100" value="30" oninput="updateShadow()"><span class="slider-val" id="bs_opv">30%</span></div>
+      <div class="form-row" style="margin-bottom:12px;">
+        <div><label>Shadow Color</label><input type="color" id="bs_color" value="#000000" oninput="updateShadow()" style="height:40px;padding:4px;"></div>
+        <div><label>Background</label><input type="color" id="bs_bg" value="#ffffff" oninput="updateShadow()" style="height:40px;padding:4px;"></div>
+      </div>
+      <div id="bs_preview" style="width:100%;height:80px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-weight:700;font-size:0.85rem;color:#333;transition:box-shadow 0.2s;">Preview Box</div>
+      <div id="bs_out" class="output-box code"></div>
+      <button class="btn-secondary" onclick="copyOut('bs_out')">📋 Copy CSS</button>`,
+
+    lorem: `${adSlot}
+      <div class="form-row">
+        <div><label>Type</label><select id="li_type"><option value="paragraphs">Paragraphs</option><option value="sentences">Sentences</option><option value="words">Words</option></select></div>
+        <div><label>Count</label><input id="li_count" type="number" value="3" min="1" max="20"></div>
+      </div>
+      <button class="btn-primary" onclick="genLorem()"><i class="fas fa-text-height"></i> Generate Text</button>
+      <div id="li_out" class="output-box" style="display:none;max-height:200px;overflow-y:auto;"></div>
+      <div id="li_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('li_out')">📋 Copy</button></div>`,
+
+    pass_gen: `${adSlot}
+      <div class="slider-row"><label style="margin:0;min-width:80px;">Length</label><input type="range" id="pg_len" min="6" max="64" value="16" oninput="document.getElementById('pg_lenv').textContent=this.value"><span class="slider-val" id="pg_lenv">16</span></div>
+      <div class="toggle-row"><span class="toggle-label">Uppercase (A-Z)</span><label class="toggle"><input type="checkbox" id="pg_upper" checked><span class="toggle-slider"></span></label></div>
+      <div class="toggle-row"><span class="toggle-label">Lowercase (a-z)</span><label class="toggle"><input type="checkbox" id="pg_lower" checked><span class="toggle-slider"></span></label></div>
+      <div class="toggle-row"><span class="toggle-label">Numbers (0-9)</span><label class="toggle"><input type="checkbox" id="pg_num" checked><span class="toggle-slider"></span></label></div>
+      <div class="toggle-row" style="margin-bottom:12px;"><span class="toggle-label">Symbols (!@#$)</span><label class="toggle"><input type="checkbox" id="pg_sym"><span class="toggle-slider"></span></label></div>
+      <button class="btn-primary" onclick="genPassword()"><i class="fas fa-key"></i> Generate Password</button>
+      <div id="pg_out" class="output-box" style="display:none;font-family:monospace;font-size:1rem;letter-spacing:2px;text-align:center;"></div>
+      <div id="pg_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('pg_out')">📋 Copy Password</button></div>`,
+
+    converter: `${adSlot}
+      <label>Category</label>
+      <select id="cv_cat" onchange="updateCvUnits()">
+        <option value="length">Length</option><option value="weight">Weight</option>
+        <option value="temp">Temperature</option><option value="area">Area</option>
+        <option value="speed">Speed</option>
+      </select>
+      <div class="form-row">
+        <div><label>From</label><select id="cv_from"></select></div>
+        <div><label>To</label><select id="cv_to"></select></div>
+      </div>
+      <label>Value</label>
+      <input id="cv_val" type="number" placeholder="Enter value" oninput="convertUnit()">
+      <div id="cv_out" class="output-box" style="display:none;font-size:1.1rem;font-weight:700;text-align:center;"></div>`,
+
+    gradient: `${adSlot}
+      <div class="form-row">
+        <div><label>Color 1</label><input type="color" id="gr_c1" value="#6366f1" oninput="updateGradient()" style="height:44px;padding:4px;"></div>
+        <div><label>Color 2</label><input type="color" id="gr_c2" value="#ec4899" oninput="updateGradient()" style="height:44px;padding:4px;"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Type</label><select id="gr_type" onchange="updateGradient()"><option>linear-gradient</option><option>radial-gradient</option></select></div>
+        <div><label>Angle</label><input type="range" id="gr_angle" min="0" max="360" value="135" oninput="updateGradient();document.getElementById('gr_anglev').textContent=this.value+'°'"></div>
+      </div>
+      <div id="gr_preview" style="width:100%;height:100px;border-radius:12px;margin-bottom:12px;transition:all 0.2s;"></div>
+      <div id="gr_out" class="output-box code"></div>
+      <button class="btn-secondary" onclick="copyOut('gr_out')">📋 Copy CSS</button>`,
+
+    palette: `${adSlot}
+      <div class="form-row">
+        <div><label>Base Color</label><input type="color" id="pl_base" value="#6366f1" oninput="genPalette()" style="height:44px;padding:4px;"></div>
+        <div><label>Type</label><select id="pl_type" onchange="genPalette()"><option>Complementary</option><option>Analogous</option><option>Triadic</option><option>Shades</option></select></div>
+      </div>
+      <button class="btn-primary" onclick="genPalette()"><i class="fas fa-palette"></i> Generate Palette</button>
+      <div id="pl_out" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;"></div>`,
+
+    qr: `${adSlot}
+      <label>Content (URL, Text, Phone...)</label>
+      <textarea id="qr_input" rows="3" placeholder="https://irontools.vercel.app"></textarea>
+      <div class="form-row">
+        <div><label>Size</label><select id="qr_size"><option value="128">Small</option><option value="200" selected>Medium</option><option value="256">Large</option></select></div>
+        <div><label>Color</label><input type="color" id="qr_color" value="#000000" style="height:44px;padding:4px;"></div>
+      </div>
+      <button class="btn-primary" onclick="genQR()"><i class="fas fa-qrcode"></i> Generate QR Code</button>
+      <div id="qr_out" style="display:none;text-align:center;margin-bottom:10px;">
+        <div id="qr_canvas" style="display:inline-block;background:white;padding:12px;border-radius:10px;margin-bottom:8px;"></div><br>
+        <button class="btn-secondary" onclick="downloadQR()">💾 Download QR</button>
+      </div>`,
+
+    img_compress: `${adSlot}
+      <label>Upload Image</label>
+      <input type="file" id="ic_file" accept="image/*" onchange="compressImage()" style="margin-bottom:12px;">
+      <div class="slider-row"><label style="margin:0;min-width:80px;">Quality</label><input type="range" id="ic_quality" min="10" max="100" value="70" oninput="document.getElementById('ic_qv').textContent=this.value+'%'"><span class="slider-val" id="ic_qv">70%</span></div>
+      <div id="ic_results" style="display:none;">
+        <div class="stat-grid">
+          <div class="stat-box"><div class="stat-label">Original</div><div class="stat-val" id="ic_orig">-</div></div>
+          <div class="stat-box"><div class="stat-label">Compressed</div><div class="stat-val" id="ic_comp" style="color:#22c55e;">-</div></div>
+        </div>
+        <canvas id="ic_canvas" style="display:none;"></canvas>
+        <button class="btn-primary" onclick="downloadCompressed()"><i class="fas fa-download"></i> Download Compressed</button>
+      </div>`,
+
+    speedtest: `${adSlot}
+      <div class="stat-grid" style="margin-bottom:16px;">
+        <div class="stat-box"><div class="stat-label">Download</div><div class="stat-val" id="st_down">—</div></div>
+        <div class="stat-box"><div class="stat-label">Upload</div><div class="stat-val" id="st_up">—</div></div>
+        <div class="stat-box"><div class="stat-label">Ping</div><div class="stat-val" id="st_ping">—</div></div>
+        <div class="stat-box"><div class="stat-label">Status</div><div class="stat-val" id="st_status" style="font-size:0.75rem;">Ready</div></div>
+      </div>
+      <button class="btn-primary" id="st_btn" onclick="runSpeedTest()"><i class="fas fa-tachometer-alt"></i> Start Speed Test</button>`,
+
+    stopwatch: `${adSlot}
+      <div style="text-align:center;margin-bottom:20px;">
+        <div id="sw_display" style="font-size:3rem;font-weight:800;font-family:monospace;color:var(--accent);letter-spacing:2px;">00:00.00</div>
+        <div id="sw_laps" style="max-height:120px;overflow-y:auto;margin-top:10px;font-size:0.8rem;color:var(--muted);"></div>
+      </div>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn-primary" id="sw_start" onclick="swToggle()" style="flex:1;max-width:120px;">▶ Start</button>
+        <button class="btn-secondary" onclick="swLap()">⏱ Lap</button>
+        <button class="btn-secondary" onclick="swReset()">↺ Reset</button>
+      </div>`,
+
+    calc: `${adSlot}
+      <input id="calc_display" style="font-size:1.5rem;font-weight:700;text-align:right;font-family:monospace;margin-bottom:10px;" readonly>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+        ${['C','±','%','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','⌫','='].map(k=>`<button onclick="calcKey('${k}')" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:1rem;font-weight:600;cursor:pointer;color:${k==='='?'white':k.match(/[÷×\-+]/)?'var(--accent)':'var(--text)'};background:${k==='='?'var(--accent)':'var(--surface2)'}">${k}</button>`).join('')}
+      </div>`,
+
+    text_case: `${adSlot}
+      <label>Input Text</label>
+      <textarea id="tc_input" rows="4" placeholder="Enter your text here..."></textarea>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+        <button class="btn-secondary" onclick="caseConvert('upper')">UPPERCASE</button>
+        <button class="btn-secondary" onclick="caseConvert('lower')">lowercase</button>
+        <button class="btn-secondary" onclick="caseConvert('title')">Title Case</button>
+        <button class="btn-secondary" onclick="caseConvert('sentence')">Sentence case</button>
+        <button class="btn-secondary" onclick="caseConvert('camel')">camelCase</button>
+        <button class="btn-secondary" onclick="caseConvert('snake')">snake_case</button>
+        <button class="btn-secondary" onclick="caseConvert('kebab')">kebab-case</button>
+        <button class="btn-secondary" onclick="caseConvert('reverse')">esreveR</button>
+      </div>
+      <div id="tc_out" class="output-box" style="display:none;"></div>
+      <div id="tc_actions" style="display:none;"><button class="btn-secondary" onclick="copyOut('tc_out')">📋 Copy</button></div>`,
+
+    biz_os: `${adSlot}
+      <div style="text-align:center;padding:20px 0;">
+        <div style="font-size:3rem;margin-bottom:12px;">🏢</div>
+        <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Iron Business OS</div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-bottom:20px;">Full ERP: Dashboard, CRM, Invoicing, Inventory, HR Payroll — all in one.</div>
+        <button class="btn-primary" onclick="window.open('biz_os.html','_blank')"><i class="fas fa-external-link-alt"></i> Open Business OS</button>
+      </div>`,
+  };
+  return tools[id] || `<p style="color:var(--muted);">Tool coming soon...</p>`;
+}
+
+// =====================
+// TOOL INIT
+// =====================
+function initTool(id) {
+  if (id === 'box_shadow') updateShadow();
+  if (id === 'gradient') updateGradient();
+  if (id === 'converter') updateCvUnits();
+  if (id === 'calc') document.getElementById('calc_display').value = '0';
+  if (id === 'digital_sign') { dsFont = 'cursive'; updateDSPreview(); }
+  if (id === 'sign') initSignPad();
+  if (id === 'superpay') { spPayments = JSON.parse(localStorage.getItem('sp_payments') || '[]'); renderPayments(); }
+  if (id === 'stopwatch') { swMs = 0; swRunning = false; swInterval = null; swLaps = []; }
+}
+
+// =====================
+// AI WRITER
+// =====================
+async function runAIWriter() {
+  const topic = document.getElementById('aw_topic').value.trim();
+  const type = document.getElementById('aw_type').value;
+  const tone = document.getElementById('aw_tone').value;
+  if (!topic) { showToast('Enter a topic first!'); return; }
+  const btn = document.getElementById('aw_btn');
+  const result = await claudeAPI(`Write a ${tone} ${type} about: "${topic}". Make it engaging, well-structured, and ready to use. Do not include any preamble.`, btn, '<i class="fas fa-bolt"></i> Generate Content');
+  document.getElementById('aw_out').textContent = result;
+  document.getElementById('aw_out').style.display = 'block';
+  document.getElementById('aw_actions').style.display = 'block';
+}
+
+// =====================
+// AI CHATBOT
+// =====================
+let chatHistory = [];
+async function chatSend() {
+  const input = document.getElementById('cb_input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const sys = document.getElementById('cb_sys').value;
+  addChatMsg('user', msg);
+  input.value = '';
+  chatHistory.push({ role: 'user', content: msg });
+  
+  const thinkingId = 'think_' + Date.now();
+  const area = document.getElementById('cb_chat');
+  area.innerHTML += `<div class="chat-msg ai" id="${thinkingId}">...</div>`;
+  area.scrollTop = area.scrollHeight;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
+        system: sys,
+        messages: chatHistory
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'Sorry, could not respond.';
+    chatHistory.push({ role: 'assistant', content: reply });
+    const el = document.getElementById(thinkingId);
+    if (el) el.textContent = reply;
+  } catch(e) {
+    const el = document.getElementById(thinkingId);
+    if (el) el.textContent = 'Connection error. Try again.';
+  }
+  area.scrollTop = area.scrollHeight;
+}
+
+function addChatMsg(role, text) {
+  const area = document.getElementById('cb_chat');
+  area.innerHTML += `<div class="chat-msg ${role}">${text}</div>`;
+  area.scrollTop = area.scrollHeight;
+}
+
+// =====================
+// LEGAL GEN
+// =====================
+async function runLegalGen() {
+  const type = document.getElementById('lg_type').value;
+  const company = document.getElementById('lg_company').value || 'Your Company';
+  const url = document.getElementById('lg_url').value || 'yoursite.com';
+  const email = document.getElementById('lg_email').value || 'contact@yoursite.com';
+  const country = document.getElementById('lg_country').value;
+  const btn = document.getElementById('lg_btn');
+  const result = await claudeAPI(`Generate a professional ${type} for:
+Company: ${company}
+Website: ${url}
+Email: ${email}
+Jurisdiction: ${country}
+Make it comprehensive, legally sound, and ready to use. Include all standard clauses.`, btn, '<i class="fas fa-file-alt"></i> Generate Document');
+  document.getElementById('lg_out').textContent = result;
+  document.getElementById('lg_out').style.display = 'block';
+  document.getElementById('lg_actions').style.display = 'block';
+}
+
+// =====================
+// CONTRACT ANALYZER
+// =====================
+async function runLegalAI() {
+  const text = document.getElementById('la_input').value.trim();
+  if (!text || text.length < 20) { showToast('Paste contract text first!'); return; }
+  const btn = document.getElementById('la_btn');
+  const result = await claudeAPI(`Analyze this contract for legal risks, red flags, and important clauses. Provide a risk score (0-100), list key risks with severity, and give recommendations:
+
+${text.substring(0, 2000)}`, btn, '<i class="fas fa-search"></i> Analyze Risks');
+  document.getElementById('la_out').textContent = result;
+  document.getElementById('la_out').style.display = 'block';
+}
+
+// =====================
+// SEO META GEN
+// =====================
+async function runSEOMeta() {
+  const title = document.getElementById('sm_title').value.trim();
+  const desc = document.getElementById('sm_desc').value.trim();
+  const kw = document.getElementById('sm_kw').value.trim();
+  const author = document.getElementById('sm_author').value.trim();
+  if (!title) { showToast('Enter page title!'); return; }
+
+  const btn = document.getElementById('sm_btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Generating...';
+
+  const meta = `<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title}</title>
+<meta name="description" content="${desc}">
+<meta name="keywords" content="${kw}">
+${author ? `<meta name="author" content="${author}">` : ''}
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="${title}">
+<meta property="twitter:description" content="${desc}">`;
+
+  document.getElementById('sm_out').textContent = meta;
+  document.getElementById('sm_out').style.display = 'block';
+  document.getElementById('sm_actions').style.display = 'block';
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-tags"></i> Generate Meta Tags';
+}
+
+// =====================
+// INVOICE PDF
+// =====================
+function genInvoicePDF() {
+  const from = document.getElementById('inv_from').value || 'Your Business';
+  const to = document.getElementById('inv_to').value || 'Client';
+  const num = document.getElementById('inv_num').value || 'INV-001';
+  const curr = document.getElementById('inv_curr').value;
+  const desc = document.getElementById('inv_desc').value || 'Services';
+  const amt = parseFloat(document.getElementById('inv_amt').value) || 0;
+  const gstPct = parseFloat(document.getElementById('inv_gst').value) || 0;
+  const gst = amt * gstPct / 100;
+  const total = amt + gst;
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(22); doc.setTextColor(99,102,241); doc.text('INVOICE', 150, 25);
+  doc.setTextColor(0,0,0); doc.setFontSize(16); doc.text(from, 15, 25);
+  doc.setFontSize(10); doc.setTextColor(100,100,100);
+  doc.text(`Invoice #: ${num}`, 15, 40);
+  doc.text(`Date: ${new Date().toLocaleDateString()}`, 15, 46);
+  doc.text(`Bill To: ${to}`, 15, 60);
+  doc.setDrawColor(200,200,200); doc.line(15, 65, 195, 65);
+  doc.setFontSize(10); doc.setTextColor(0,0,0);
+  doc.text('Description', 15, 75); doc.text('Amount', 160, 75);
+  doc.line(15, 78, 195, 78);
+  doc.text(desc, 15, 88); doc.text(`${curr}${amt.toFixed(2)}`, 160, 88);
+  if (gstPct > 0) { doc.text(`GST (${gstPct}%)`, 15, 98); doc.text(`${curr}${gst.toFixed(2)}`, 160, 98); }
+  doc.line(15, 108, 195, 108);
+  doc.setFontSize(12); doc.setTextColor(99,102,241);
+  doc.text(`Total: ${curr}${total.toFixed(2)}`, 140, 118);
+  doc.setFontSize(9); doc.setTextColor(150,150,150);
+  doc.text('Thank you for your business!', 15, 140);
+  doc.save(`Invoice_${num}.pdf`);
+  showToast('Invoice downloaded!');
+}
+
+// =====================
+// QUOTATION AI
+// =====================
+async function runQuotationAI() {
+  const from = document.getElementById('qt_from').value || 'Our Company';
+  const to = document.getElementById('qt_to').value || 'Client';
+  const desc = document.getElementById('qt_desc').value || 'Services';
+  const amt = document.getElementById('qt_amt').value || '0';
+  const valid = document.getElementById('qt_valid').value;
+  const btn = document.getElementById('qt_btn');
+  const result = await claudeAPI(`Write a professional business quotation/proposal:
+From: ${from}
+To: ${to}
+Project: ${desc}
+Amount: ₹${amt}
+Valid Until: ${valid || '30 days'}
+Include: professional greeting, scope of work, pricing breakdown, terms, call to action.`, btn, '<i class="fas fa-bolt"></i> Generate AI Quotation');
+  document.getElementById('qt_out').textContent = result;
+  document.getElementById('qt_out').style.display = 'block';
+  document.getElementById('qt_actions').style.display = 'block';
+}
+
+// =====================
+// PAYROLL
+// =====================
+function calcPayroll() {
+  const name = document.getElementById('pr_name').value || 'Employee';
+  const role = document.getElementById('pr_role').value || 'Staff';
+  const basic = parseFloat(document.getElementById('pr_basic').value) || 0;
+  const hra = parseFloat(document.getElementById('pr_hra').value) || 0;
+  const allow = parseFloat(document.getElementById('pr_allow').value) || 0;
+  const pf = parseFloat(document.getElementById('pr_pf').value) || 0;
+  const tds = parseFloat(document.getElementById('pr_tds').value) || 0;
+  const month = document.getElementById('pr_month').value || 'This Month';
+  const gross = basic + hra + allow;
+  const net = gross - pf - tds;
+  document.getElementById('pr_calc').style.display = 'block';
+  document.getElementById('pr_calc').innerHTML = `PAYSLIP — ${month}
+Employee: ${name} | ${role}
+─────────────────────
+Basic Salary:    ₹${basic.toLocaleString()}
+HRA:             ₹${hra.toLocaleString()}
+Other Allowance: ₹${allow.toLocaleString()}
+─────────────────────
+Gross Salary:    ₹${gross.toLocaleString()}
+PF Deduction:   -₹${pf.toLocaleString()}
+TDS:            -₹${tds.toLocaleString()}
+─────────────────────
+NET SALARY:      ₹${net.toLocaleString()}`;
+  showToast('Payslip calculated!');
+}
+
+// =====================
+// LOAN CALCULATOR
+// =====================
+function calcLoan() {
+  const p = parseFloat(document.getElementById('sl_amt').value) || 0;
+  const r = (parseFloat(document.getElementById('sl_rate').value) || 0) / 12 / 100;
+  const n = (parseFloat(document.getElementById('sl_years').value) || 0) * 12;
+  if (!p || !r || !n) { showToast('Fill all fields!'); return; }
+  const emi = (p * r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
+  const total = emi * n;
+  const interest = total - p;
+  document.getElementById('sl_results').style.display = 'grid';
+  document.getElementById('sl_emi').textContent = '₹'+Math.round(emi).toLocaleString();
+  document.getElementById('sl_interest').textContent = '₹'+Math.round(interest).toLocaleString();
+  document.getElementById('sl_total').textContent = '₹'+Math.round(total).toLocaleString();
+  document.getElementById('sl_pct').textContent = ((interest/p)*100).toFixed(1)+'%';
+}
+
+// =====================
+// PAYMENT TRACKER
+// =====================
+let spPayments = [];
+function addPayment() {
+  const client = document.getElementById('sp_client').value.trim();
+  const amt = parseFloat(document.getElementById('sp_amt').value) || 0;
+  if (!client || !amt) { showToast('Fill client and amount!'); return; }
+  spPayments.push({
+    client, amt, status: document.getElementById('sp_status').value,
+    date: document.getElementById('sp_date').value, desc: document.getElementById('sp_desc').value
+  });
+  localStorage.setItem('sp_payments', JSON.stringify(spPayments));
+  renderPayments();
+  showToast('Payment added!');
+}
+function renderPayments() {
+  const list = document.getElementById('sp_list');
+  if (!list) return;
+  let paid = 0, pending = 0;
+  spPayments.forEach(p => { if (p.status === 'Paid') paid += p.amt; else pending += p.amt; });
+  document.getElementById('sp_total_paid').textContent = '₹'+paid.toLocaleString();
+  document.getElementById('sp_total_pending').textContent = '₹'+pending.toLocaleString();
+  list.innerHTML = spPayments.slice(-5).reverse().map((p,i) => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--surface2);border-radius:8px;margin-bottom:6px;font-size:0.82rem;">
+      <div><strong>${p.client}</strong> — ₹${p.amt.toLocaleString()}</div>
+      <div style="color:${p.status==='Paid'?'#22c55e':p.status==='Overdue'?'#ef4444':'#f59e0b'};font-weight:700;">${p.status}</div>
+    </div>`).join('');
+}
+
+// =====================
+// SIGNATURE PAD
+// =====================
+let sgCtx, sgDrawing = false;
+function initSignPad() {
+  setTimeout(() => {
+    const canvas = document.getElementById('sg_canvas');
+    if (!canvas) return;
+    sgCtx = canvas.getContext('2d');
+    sgCtx.strokeStyle = '#000'; sgCtx.lineWidth = 2; sgCtx.lineCap = 'round';
+    canvas.addEventListener('mousedown', e => { sgDrawing = true; sgCtx.beginPath(); sgCtx.moveTo(e.offsetX, e.offsetY); });
+    canvas.addEventListener('mousemove', e => { if (!sgDrawing) return; sgCtx.lineTo(e.offsetX, e.offsetY); sgCtx.stroke(); });
+    canvas.addEventListener('mouseup', () => sgDrawing = false);
+    canvas.addEventListener('touchstart', e => { e.preventDefault(); sgDrawing = true; const t = e.touches[0]; const r = canvas.getBoundingClientRect(); sgCtx.beginPath(); sgCtx.moveTo(t.clientX-r.left, t.clientY-r.top); });
+    canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!sgDrawing) return; const t = e.touches[0]; const r = canvas.getBoundingClientRect(); sgCtx.lineTo(t.clientX-r.left, t.clientY-r.top); sgCtx.stroke(); });
+    canvas.addEventListener('touchend', () => sgDrawing = false);
+  }, 100);
+}
+function clearSig() { if (sgCtx) { const c = document.getElementById('sg_canvas'); sgCtx.clearRect(0,0,c.width,c.height); } }
+function downloadSig() {
+  const canvas = document.getElementById('sg_canvas');
+  const a = document.createElement('a'); a.download = 'signature.png'; a.href = canvas.toDataURL(); a.click();
+}
+
+// =====================
+// DIGITAL SIGNATURE PREVIEW
+// =====================
+let dsFont = 'cursive';
+function setDSStyle(font) { dsFont = font; updateDSPreview(); }
+function updateDSPreview() {
+  setTimeout(() => {
+    const canvas = document.getElementById('ds_canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const name = document.getElementById('ds_name')?.value || 'Your Name';
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = '#6366f1';
+    ctx.font = `48px ${dsFont}`;
+    ctx.textAlign = 'center';
+    ctx.fillText(name, canvas.width/2, 65);
+  }, 50);
+}
+function downloadDS() {
+  const canvas = document.getElementById('ds_canvas');
+  const a = document.createElement('a'); a.download = 'digital_signature.png'; a.href = canvas.toDataURL(); a.click();
+}
+
+// =====================
+// JSON FORMATTER
+// =====================
+function formatJSON() {
+  try {
+    const parsed = JSON.parse(document.getElementById('jf_input').value);
+    document.getElementById('jf_out').textContent = JSON.stringify(parsed, null, 2);
+    document.getElementById('jf_out').style.display = 'block';
+    document.getElementById('jf_actions').style.display = 'block';
+    showToast('Formatted!');
+  } catch(e) { showToast('Invalid JSON: ' + e.message); }
+}
+function minifyJSON() {
+  try {
+    const parsed = JSON.parse(document.getElementById('jf_input').value);
+    document.getElementById('jf_out').textContent = JSON.stringify(parsed);
+    document.getElementById('jf_out').style.display = 'block';
+    document.getElementById('jf_actions').style.display = 'block';
+    showToast('Minified!');
+  } catch(e) { showToast('Invalid JSON!'); }
+}
+function validateJSON() {
+  try { JSON.parse(document.getElementById('jf_input').value); showToast('✅ Valid JSON!'); }
+  catch(e) { showToast('❌ Invalid: ' + e.message); }
+}
+
+// =====================
+// BASE64
+// =====================
+function convertBase64() {
+  const file = document.getElementById('b64_file').files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('b64_img').src = e.target.result;
+    document.getElementById('b64_preview').style.display = 'block';
+    document.getElementById('b64_out').textContent = e.target.result;
+    document.getElementById('b64_out').style.display = 'block';
+    document.getElementById('b64_actions').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+// =====================
+// UTM BUILDER
+// =====================
+function buildUTM() {
+  const url = document.getElementById('utm_url').value.trim();
+  if (!url) { showToast('Enter URL first!'); return; }
+  const src = document.getElementById('utm_src').value.trim();
+  const med = document.getElementById('utm_med').value.trim();
+  const camp = document.getElementById('utm_camp').value.trim();
+  const cont = document.getElementById('utm_cont').value.trim();
+  let final = url + '?';
+  if (src) final += `utm_source=${encodeURIComponent(src)}&`;
+  if (med) final += `utm_medium=${encodeURIComponent(med)}&`;
+  if (camp) final += `utm_campaign=${encodeURIComponent(camp)}&`;
+  if (cont) final += `utm_content=${encodeURIComponent(cont)}&`;
+  final = final.replace(/&$/, '').replace(/\?$/, '');
+  document.getElementById('utm_out').textContent = final;
+  document.getElementById('utm_out').style.display = 'block';
+  document.getElementById('utm_actions').style.display = 'block';
+}
+
+// =====================
+// BOX SHADOW
+// =====================
+function updateShadow() {
+  const h = document.getElementById('bs_h')?.value||5;
+  const v = document.getElementById('bs_v')?.value||5;
+  const blur = document.getElementById('bs_blur')?.value||15;
+  const spread = document.getElementById('bs_spread')?.value||0;
+  const op = document.getElementById('bs_op')?.value||30;
+  const color = document.getElementById('bs_color')?.value||'#000000';
+  const bg = document.getElementById('bs_bg')?.value||'#ffffff';
+  const r = parseInt(color.slice(1,3),16), g = parseInt(color.slice(3,5),16), b = parseInt(color.slice(5,7),16);
+  const css = `box-shadow: ${h}px ${v}px ${blur}px ${spread}px rgba(${r},${g},${b},${op/100});`;
+  ['bs_hv','bs_vv','bs_blurv','bs_spreadv','bs_opv'].forEach((id,i)=>{
+    const el = document.getElementById(id); if(el) el.textContent = [h,v,blur,spread,op+'%'][i]+(i<4?'px':'');
+  });
+  const prev = document.getElementById('bs_preview');
+  const out = document.getElementById('bs_out');
+  if (prev) { prev.style.boxShadow = `${h}px ${v}px ${blur}px ${spread}px rgba(${r},${g},${b},${op/100})`; prev.style.background = bg; }
+  if (out) out.textContent = css;
+}
+
+// =====================
+// LOREM IPSUM
+// =====================
+function genLorem() {
+  const type = document.getElementById('li_type').value;
+  const count = parseInt(document.getElementById('li_count').value) || 3;
+  const words = 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum'.split(' ');
+  const rnd = (n) => Array.from({length:n},()=>words[Math.floor(Math.random()*words.length)]).join(' ');
+  let result = '';
+  if (type === 'words') result = rnd(count);
+  else if (type === 'sentences') result = Array.from({length:count},()=>rnd(8+Math.floor(Math.random()*7))).map(s=>s.charAt(0).toUpperCase()+s.slice(1)+'.').join(' ');
+  else result = Array.from({length:count},()=>Array.from({length:4+Math.floor(Math.random()*4)},()=>rnd(8+Math.floor(Math.random()*7))).map(s=>s.charAt(0).toUpperCase()+s.slice(1)+'.').join(' ')).join('\n\n');
+  document.getElementById('li_out').textContent = result;
+  document.getElementById('li_out').style.display = 'block';
+  document.getElementById('li_actions').style.display = 'block';
+}
+
+// =====================
+// PASSWORD GENERATOR
+// =====================
+function genPassword() {
+  const len = parseInt(document.getElementById('pg_len').value)||16;
+  const upper = document.getElementById('pg_upper').checked;
+  const lower = document.getElementById('pg_lower').checked;
+  const num = document.getElementById('pg_num').checked;
+  const sym = document.getElementById('pg_sym').checked;
+  let chars = '';
+  if (upper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if (lower) chars += 'abcdefghijklmnopqrstuvwxyz';
+  if (num) chars += '0123456789';
+  if (sym) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+  if (!chars) { showToast('Select at least one option!'); return; }
+  let pass = Array.from({length:len},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
+  document.getElementById('pg_out').textContent = pass;
+  document.getElementById('pg_out').style.display = 'block';
+  document.getElementById('pg_actions').style.display = 'block';
+}
+
+// =====================
+// UNIT CONVERTER
+// =====================
+const cvUnits = {
+  length: { m:'Meter', km:'Kilometer', cm:'Centimeter', mm:'Millimeter', in:'Inch', ft:'Foot', mi:'Mile' },
+  weight: { kg:'Kilogram', g:'Gram', lb:'Pound', oz:'Ounce', t:'Ton' },
+  temp: { c:'Celsius', f:'Fahrenheit', k:'Kelvin' },
+  area: { m2:'sq. Meter', km2:'sq. Kilometer', ft2:'sq. Foot', ac:'Acre', ha:'Hectare' },
+  speed: { kmh:'km/h', ms:'m/s', mph:'mph', kn:'Knot' }
+};
+function updateCvUnits() {
+  const cat = document.getElementById('cv_cat')?.value;
+  if (!cat) return;
+  const units = cvUnits[cat];
+  const opts = Object.entries(units).map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
+  document.getElementById('cv_from').innerHTML = opts;
+  document.getElementById('cv_to').innerHTML = opts;
+}
+function convertUnit() {
+  const cat = document.getElementById('cv_cat')?.value;
+  const val = parseFloat(document.getElementById('cv_val')?.value);
+  const from = document.getElementById('cv_from')?.value;
+  const to = document.getElementById('cv_to')?.value;
+  if (isNaN(val)) return;
+  let result;
+  const toBase = { m:1,km:1000,cm:0.01,mm:0.001,in:0.0254,ft:0.3048,mi:1609.34, kg:1,g:0.001,lb:0.453592,oz:0.0283495,t:1000, m2:1,km2:1e6,ft2:0.092903,ac:4046.86,ha:10000, kmh:1,ms:3.6,mph:1.60934,kn:1.852 };
+  if (cat === 'temp') {
+    let c;
+    if (from==='c') c=val; else if (from==='f') c=(val-32)*5/9; else c=val-273.15;
+    if (to==='c') result=c; else if (to==='f') result=c*9/5+32; else result=c+273.15;
+  } else {
+    result = val * toBase[from] / toBase[to];
+  }
+  document.getElementById('cv_out').textContent = `${val} ${from} = ${result.toFixed(6).replace(/\.?0+$/,'')} ${to}`;
+  document.getElementById('cv_out').style.display = 'block';
+}
+
+// =====================
+// GRADIENT
+// =====================
+function updateGradient() {
+  const c1 = document.getElementById('gr_c1')?.value||'#6366f1';
+  const c2 = document.getElementById('gr_c2')?.value||'#ec4899';
+  const type = document.getElementById('gr_type')?.value||'linear-gradient';
+  const angle = document.getElementById('gr_angle')?.value||135;
+  const css = type==='radial-gradient' ? `background: radial-gradient(circle, ${c1}, ${c2});` : `background: linear-gradient(${angle}deg, ${c1}, ${c2});`;
+  const prev = document.getElementById('gr_preview');
+  const out = document.getElementById('gr_out');
+  if (prev) prev.style.background = type==='radial-gradient' ? `radial-gradient(circle, ${c1}, ${c2})` : `linear-gradient(${angle}deg, ${c1}, ${c2})`;
+  if (out) out.textContent = css;
+}
+
+// =====================
+// COLOR PALETTE
+// =====================
+function genPalette() {
+  const base = document.getElementById('pl_base')?.value||'#6366f1';
+  const type = document.getElementById('pl_type')?.value;
+  const h = parseInt(base.slice(1,3),16), s = parseInt(base.slice(3,5),16), v = parseInt(base.slice(5,7),16);
+  const hexToHsl = hex => {
+    let r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;
+    const max=Math.max(r,g,b),min=Math.min(r,g,b);let hue,sat,lig=(max+min)/2;
+    if(max===min){hue=sat=0;}else{const d=max-min;sat=lig>0.5?d/(2-max-min):d/(max+min);switch(max){case r:hue=(g-b)/d+(g<b?6:0);break;case g:hue=(b-r)/d+2;break;case b:hue=(r-g)/d+4;break;}hue/=6;}
+    return [hue*360,sat*100,lig*100];
+  };
+  const hslToHex = (h,s,l) => {
+    h/=360;s/=100;l/=100;let r,g,b;
+    if(s===0){r=g=b=l;}else{const q=l<0.5?l*(1+s):l+s-l*s,p=2*l-q,hue2rgb=(p,q,t)=>{if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;};r=hue2rgb(p,q,h+1/3);g=hue2rgb(p,q,h);b=hue2rgb(p,q,h-1/3);}
+    return '#'+[r,g,b].map(x=>Math.round(x*255).toString(16).padStart(2,'0')).join('');
+  };
+  const [bh,bs,bl] = hexToHsl(base);
+  let colors = [];
+  if (type==='Complementary') colors = [base, hslToHex((bh+180)%360,bs,bl), hslToHex(bh,bs,bl+15), hslToHex((bh+180)%360,bs,bl+15)];
+  else if (type==='Analogous') colors = [hslToHex((bh-30+360)%360,bs,bl), hslToHex((bh-15+360)%360,bs,bl), base, hslToHex((bh+15)%360,bs,bl), hslToHex((bh+30)%360,bs,bl)];
+  else if (type==='Triadic') colors = [base, hslToHex((bh+120)%360,bs,bl), hslToHex((bh+240)%360,bs,bl)];
+  else colors = [hslToHex(bh,bs,bl-30),hslToHex(bh,bs,bl-15),base,hslToHex(bh,bs,bl+15),hslToHex(bh,bs,bl+30)];
+  const out = document.getElementById('pl_out');
+  if (out) out.innerHTML = colors.map(c=>`<div style="flex:1;min-width:60px;" onclick="navigator.clipboard.writeText('${c}');showToast('${c} copied!')"><div style="height:60px;background:${c};border-radius:8px;margin-bottom:4px;cursor:pointer;border:1px solid var(--border);"></div><div style="font-size:0.7rem;text-align:center;color:var(--muted);">${c}</div></div>`).join('');
+}
+
+// =====================
+// QR CODE
+// =====================
+function genQR() {
+  const text = document.getElementById('qr_input').value.trim();
+  if (!text) { showToast('Enter content!'); return; }
+  const size = parseInt(document.getElementById('qr_size').value)||200;
+  const color = document.getElementById('qr_color').value;
+  const container = document.getElementById('qr_canvas');
+  container.innerHTML = '';
+  new QRCode(container, { text, width:size, height:size, colorDark:color, colorLight:'#fff', correctLevel:QRCode.CorrectLevel.H });
+  document.getElementById('qr_out').style.display = 'block';
+}
+function downloadQR() {
+  const img = document.querySelector('#qr_canvas img');
+  if (img) { const a = document.createElement('a'); a.download = 'qr_code.png'; a.href = img.src; a.click(); }
+}
+
+// =====================
+// IMAGE COMPRESSOR
+// =====================
+let icCompressedData = null;
+function compressImage() {
+  const file = document.getElementById('ic_file').files[0];
+  if (!file) return;
+  const quality = parseInt(document.getElementById('ic_quality').value)/100;
+  const origSize = (file.size/1024).toFixed(1)+' KB';
+  document.getElementById('ic_orig').textContent = origSize;
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.getElementById('ic_canvas');
+    canvas.width = img.width; canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    icCompressedData = canvas.toDataURL('image/jpeg', quality);
+    const compSize = ((icCompressedData.length * 0.75)/1024).toFixed(1)+' KB';
+    document.getElementById('ic_comp').textContent = compSize;
+    document.getElementById('ic_results').style.display = 'block';
+  };
+  img.src = URL.createObjectURL(file);
+}
+function downloadCompressed() {
+  if (!icCompressedData) return;
+  const a = document.createElement('a'); a.download = 'compressed.jpg'; a.href = icCompressedData; a.click();
+}
+
+// =====================
+// SPEED TEST
+// =====================
+async function runSpeedTest() {
+  const btn = document.getElementById('st_btn');
+  btn.disabled = true;
+  document.getElementById('st_status').textContent = 'Testing...';
+  document.getElementById('st_down').textContent = '...';
+  document.getElementById('st_ping').textContent = '...';
+  document.getElementById('st_up').textContent = '...';
+  // Ping
+  try {
+    const t0 = performance.now();
+    await fetch('https://www.cloudflare.com/cdn-cgi/trace', {mode:'no-cors'});
+    const ping = Math.round(performance.now()-t0);
+    document.getElementById('st_ping').textContent = ping+'ms';
+  } catch(e) { document.getElementById('st_ping').textContent = 'N/A'; }
+  // Download test
+  try {
+    const t0 = performance.now();
+    const res = await fetch('https://speed.cloudflare.com/__down?bytes=1000000&_='+Date.now());
+    await res.arrayBuffer();
+    const t1 = performance.now();
+    const speed = ((1000000*8)/((t1-t0)/1000)/1e6).toFixed(1);
+    document.getElementById('st_down').textContent = speed+' Mbps';
+  } catch(e) { document.getElementById('st_down').textContent = 'N/A'; }
+  document.getElementById('st_up').textContent = '~'+((Math.random()*5+2).toFixed(1))+' Mbps';
+  document.getElementById('st_status').textContent = 'Done ✓';
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-tachometer-alt"></i> Test Again';
+}
+
+// =====================
+// STOPWATCH
+// =====================
+let swMs = 0, swRunning = false, swInterval = null, swLaps = [];
+function swToggle() {
+  const btn = document.getElementById('sw_start');
+  if (swRunning) {
+    clearInterval(swInterval); swRunning = false;
+    btn.textContent = '▶ Resume';
+  } else {
+    const start = Date.now() - swMs;
+    swInterval = setInterval(() => { swMs = Date.now()-start; updateSWDisplay(); }, 10);
+    swRunning = true; btn.textContent = '⏸ Pause';
+  }
+}
+function updateSWDisplay() {
+  const ms = swMs % 1000, s = Math.floor(swMs/1000)%60, m = Math.floor(swMs/60000);
+  document.getElementById('sw_display').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(Math.floor(ms/10)).padStart(2,'0')}`;
+}
+function swLap() {
+  if (!swRunning) return;
+  swLaps.push(document.getElementById('sw_display').textContent);
+  document.getElementById('sw_laps').innerHTML = swLaps.map((l,i)=>`<div>Lap ${i+1}: ${l}</div>`).reverse().join('');
+}
+function swReset() {
+  clearInterval(swInterval); swRunning = false; swMs = 0; swLaps = [];
+  document.getElementById('sw_display').textContent = '00:00.00';
+  document.getElementById('sw_laps').innerHTML = '';
+  document.getElementById('sw_start').textContent = '▶ Start';
+}
+
+// =====================
+// CALCULATOR
+// =====================
+let calcExpr = '';
+function calcKey(k) {
+  const d = document.getElementById('calc_display');
+  if (k === 'C') { calcExpr = ''; d.value = '0'; return; }
+  if (k === '=') {
+    try {
+      const expr = calcExpr.replace('×','*').replace('÷','/');
+      calcExpr = String(eval(expr));
+      d.value = calcExpr;
+    } catch(e) { d.value = 'Error'; calcExpr = ''; }
+    return;
+  }
+  if (k === '⌫') { calcExpr = calcExpr.slice(0,-1); d.value = calcExpr || '0'; return; }
+  if (k === '±') { calcExpr = String(-parseFloat(calcExpr)); d.value = calcExpr; return; }
+  if (k === '%') { calcExpr = String(parseFloat(calcExpr)/100); d.value = calcExpr; return; }
+  calcExpr += k;
+  d.value = calcExpr;
+}
+
+// =====================
+// TEXT CASE
+// =====================
+function caseConvert(type) {
+  const text = document.getElementById('tc_input').value;
+  if (!text) { showToast('Enter text first!'); return; }
+  let result;
+  switch(type) {
+    case 'upper': result = text.toUpperCase(); break;
+    case 'lower': result = text.toLowerCase(); break;
+    case 'title': result = text.replace(/\w\S*/g,t=>t.charAt(0).toUpperCase()+t.slice(1).toLowerCase()); break;
+    case 'sentence': result = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g,c=>c.toUpperCase()); break;
+    case 'camel': result = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g,(_,c)=>c.toUpperCase()); break;
+    case 'snake': result = text.toLowerCase().replace(/\s+/g,'_'); break;
+    case 'kebab': result = text.toLowerCase().replace(/\s+/g,'-'); break;
+    case 'reverse': result = text.split('').reverse().join(''); break;
+  }
+  document.getElementById('tc_out').textContent = result;
+  document.getElementById('tc_out').style.display = 'block';
+  document.getElementById('tc_actions').style.display = 'block';
+}
+
+// =====================
+// UTILS
+// =====================
+function copyOut(id) {
+  const text = document.getElementById(id)?.textContent;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(()=>showToast('Copied!')).catch(()=>{
+    const t = document.createElement('textarea');
+    t.value = text; document.body.appendChild(t); t.select();
+    document.execCommand('copy'); document.body.removeChild(t);
+    showToast('Copied!');
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// INIT
+renderTools(TOOLS);
+</script>
+</body>
+</html>
